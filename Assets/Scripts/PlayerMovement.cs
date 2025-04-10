@@ -1,29 +1,40 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-
+    private PlayerControls input;
     [SerializeField] private float moveSpeed;
-    // Start is called before the first frame update
-    void Start()
+    private Vector2 movementInput;
+
+    private void Awake()
     {
-        
+        input = new PlayerControls();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnEnable()
     {
-        //Define the speed at which the object moves.
+        input.gameplay.Enable();
+        input.gameplay.move.performed += OnMove;
+        input.gameplay.move.canceled += OnMove;
+    }
 
-        float horizontalInput = Input.GetAxis("Horizontal");
-        //Get the value of the Horizontal input axis.
+    private void OnDisable()
+    {
+        input.gameplay.move.performed -= OnMove;
+        input.gameplay.move.canceled -= OnMove;
+        input.gameplay.Disable();
+    }
 
-        float verticalInput = Input.GetAxis("Vertical");
-        //Get the value of the Vertical input axis.
+    public void OnMove(UnityEngine.InputSystem.InputAction.CallbackContext context)
+    {
+        // You get movement input here from W/A/S/D as a Vector2
+        movementInput = context.ReadValue<Vector2>();
+    }
 
-        transform.Translate(new Vector3(horizontalInput, 0, verticalInput) * moveSpeed * Time.deltaTime);
-        //Move the object to XYZ coordinates defined as horizontalInput, 0, and verticalInput respectively.
+    private void Update()
+    {
+        // Just for demo: move the GameObject with input
+        Vector3 move = new Vector3(movementInput.x, 0, movementInput.y);
+        transform.Translate(move * Time.deltaTime * moveSpeed, Space.World);
     }
 }
