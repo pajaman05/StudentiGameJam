@@ -5,7 +5,7 @@ using UnityEngine;
 public class Health : MonoBehaviour
 {
     [SerializeField] private float maxHealth = 100f;
-    private float currentHealth;
+    [SerializeField] private float currentHealth;
 
     private void Start()
     {
@@ -18,9 +18,14 @@ public class Health : MonoBehaviour
             currentHealth -= damage;
         else 
             currentHealth = 0;
+        if(currentHealth <= 0)
+            Die();
     }
 
-
+    public void Die()
+    {
+        Destroy(gameObject);
+    }
     public void TakeHeal(float heal)
     {
         if (currentHealth + heal <= maxHealth)

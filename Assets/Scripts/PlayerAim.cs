@@ -5,7 +5,7 @@ public class PlayerAim : MonoBehaviour
 {
     [SerializeField] private Camera mainCamera;
     [SerializeField] private LayerMask groundLayer;
-    [SerializeField] private float LookSpeed = 10f;
+    [SerializeField] private float LookSpeed = 20f;
     private PlayerControls input;
     private Vector2 mouseScreenPos;
 

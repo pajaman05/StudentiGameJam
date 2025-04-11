@@ -4,6 +4,7 @@ public class Projectile : MonoBehaviour
 {
     [SerializeField] private float speed = 10f;
     [SerializeField] private float lifetime = 5f;
+    [SerializeField] public float damage = 20f;
 
     private void Start()
     {
